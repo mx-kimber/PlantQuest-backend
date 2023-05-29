@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  collected_plant_id: 1
+  watering_start_date: 2023-05-29 14:28:17
+
+two:
+  user_id: 1
+  collected_plant_id: 1
+  watering_start_date: 2023-05-29 14:28:17

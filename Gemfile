@@ -70,3 +70,7 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+gem "http"
+gem 'rack-cors'
+gem 'jwt'
