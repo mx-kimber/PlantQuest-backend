@@ -71,6 +71,7 @@ group :test do
   gem "webdrivers"
 end
 
+gem 'bcrypt', '~> 3.1.7'  
 gem "http"
 gem 'rack-cors'
 gem 'jwt'
