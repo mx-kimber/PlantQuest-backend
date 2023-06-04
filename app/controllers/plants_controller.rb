@@ -33,4 +33,23 @@ class PlantsController < ApplicationController
     render :show
   end
 
+  def destroy
+    @plant = Plant.find_by(id: params[:id])
+    if confirm_destroy?
+      @plant.destroy
+      render json: { message: "Plant destroyed successfully" }
+    else
+      render json: { message: "Deletion canceled" }
+    end
+  end
+  
+  private
+  
+  def confirm_destroy?
+    confirm_message = "Are you sure you want to delete this plant?"
+    confirmation = params[:confirm]
+    confirmation == "true"
+  end
+  
+  
 end
