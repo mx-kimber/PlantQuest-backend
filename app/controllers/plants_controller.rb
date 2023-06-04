@@ -13,7 +13,11 @@ class PlantsController < ApplicationController
       sun_amount: params[:sun_amount],
       days_to_water: params[:days_to_water],
     )
-    render :show
+    if @plant.save
+      render :show
+    else
+      render json: {errors: @plant.errors.full_messages}, status: :unprocessable_entity
+    end
   end
 
   def show
@@ -23,15 +27,18 @@ class PlantsController < ApplicationController
 
   def update
     @plant = Plant.find_by(id: params[:id])
-    @plant.update(
+    if @plant.update(
       name: params[:name] || @plant.name,
       description: params[:description] || @plant.description,
       sun_amount: params[:sun_amount] || @plant.sun_amount,
       days_to_water: params[:days_to_water] || @plant.days_to_water,
     )
-   
-    render :show
+      render :show
+    else
+      render json: { errors: @plant.errors.full_messages }, status: :unprocessable_entity
+    end
   end
+  
 
   def destroy
     @plant = Plant.find_by(id: params[:id])
