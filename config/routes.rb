@@ -4,5 +4,7 @@ Rails.application.routes.draw do
  post "/sessions" => "sessions#create"
  
  resources :plants
+ resources :schedules
+ resources :collected_plants
 
 end
