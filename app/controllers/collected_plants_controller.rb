@@ -26,4 +26,46 @@ class CollectedPlantsController < ApplicationController
     @collected_plant = CollectedPlant.find(params[:id])
     render :show
   end  
+
+  def update
+    @collected_plant = CollectedPlant.find_by(id: params[:id])
+  
+    if @collected_plant
+      @collected_plant.assign_attributes(collected_plant_params)
+      @collected_plant.users_image ||= @collected_plant.plant.users_image
+  
+      if @collected_plant.save
+        render :show
+      else
+        render json: { errors: @collected_plant.errors.full_messages }, status: :unprocessable_entity
+      end
+    else
+      render json: { errors: ['Collected Plant not found'] }, status: :not_found
+    end
+  end
+  
+  private
+  
+  def collected_plant_params
+    params.permit(:user_id, :plant_id, :custom_name, :notes)
+  end
+  
+
+  def destroy
+    @collected_plant = CollectedPlant.find_by(id: params[:id])
+    if confirm_destroy?
+      @collected_plant.destroy
+      render json: { message: "Collected plant destroyed successfully" }
+    else
+      render json: { message: "Deletion canceled" }
+    end
+  end
+  
+  private
+  
+  def confirm_destroy?
+    confirm_message = "Are you sure you want to delete this collected plant?"
+    confirmation = params[:confirm]
+    confirmation == "true"
+  end
 end
