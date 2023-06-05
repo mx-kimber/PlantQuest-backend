@@ -21,7 +21,6 @@ class CollectedPlantsController < ApplicationController
     end
   end
   
-
   def show
     @collected_plant = CollectedPlant.find(params[:id])
     render :show
@@ -43,21 +42,19 @@ class CollectedPlantsController < ApplicationController
       render json: { errors: ['Collected Plant not found'] }, status: :not_found
     end
   end
-  
-  private
-  
-  def collected_plant_params
-    params.permit(:user_id, :plant_id, :custom_name, :notes)
-  end
-  
 
   def destroy
     @collected_plant = CollectedPlant.find_by(id: params[:id])
-    if confirm_destroy?
-      @collected_plant.destroy
-      render json: { message: "Collected plant destroyed successfully" }
+    
+    if @collected_plant
+      if confirm_destroy?
+        @collected_plant.destroy
+        render json: { message: "Collected plant destroyed successfully" }
+      else
+        render json: { message: "Deletion canceled" }
+      end
     else
-      render json: { message: "Deletion canceled" }
+      render json: { message: "Collected Plant not found" }, status: :not_found
     end
   end
   
@@ -67,5 +64,9 @@ class CollectedPlantsController < ApplicationController
     confirm_message = "Are you sure you want to delete this collected plant?"
     confirmation = params[:confirm]
     confirmation == "true"
+  end
+
+  def collected_plant_params
+    params.permit(:user_id, :plant_id, :custom_name, :notes, :users_image)
   end
 end
