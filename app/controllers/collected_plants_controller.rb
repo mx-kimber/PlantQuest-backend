@@ -1,7 +1,7 @@
 class CollectedPlantsController < ApplicationController
 
   def index
-    @collected_plants = CollectedPlant.all
+    @collected_plants = current_user.collected_plants
     render :index
   end
 
