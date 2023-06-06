@@ -11,8 +11,9 @@ class CollectedPlantsController < ApplicationController
       plant_id: params[:plant_id],
       custom_name: params[:custom_name],
       notes: params[:notes],
-      users_image: params[:users_image].presence || Plant.find(params[:plant_id]).users_image
+      users_image: params[:users_image]
     )
+    
   
     if @collected_plant.save
       render :show
