@@ -3,6 +3,9 @@ class CollectedPlant < ApplicationRecord
   belongs_to :plant
   has_one :schedule
 
+  accepts_nested_attributes_for :schedule
+  accepts_nested_attributes_for :plant
+
   validates :user_id, presence: true
   validates :plant_id, presence: true
   # validates :custom_name, presence: true
