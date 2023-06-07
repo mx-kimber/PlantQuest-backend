@@ -13,8 +13,6 @@ if collected_plant.schedule
     json.id collected_plant.schedule.id
     json.collected_plant_id collected_plant.schedule.collected_plant_id
     json.watering_start_date collected_plant.schedule.watering_start_date
-    
-    # Include other schedule attributes as needed
   end
 else
   json.schedule "No schedule available"

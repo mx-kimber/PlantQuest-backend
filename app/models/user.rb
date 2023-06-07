@@ -6,6 +6,4 @@ class User < ApplicationRecord
   
   has_many :collected_plants
   has_many :schedules, through: :collected_plants
-  
-  # has_many :plants, through: :collected_plants
 end

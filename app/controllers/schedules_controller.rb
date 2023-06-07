@@ -10,36 +10,36 @@ class SchedulesController < ApplicationController
   end 
 
   def create
-    @schedule = Schedule.create(
-      user_id: params[:user_id],
-      collected_plant_id: params[:collected_plant_id],
-      watering_start_date: params[:watering_start_date],
-    )
-    if @schedule.save
-      render :show
-    else
-      render json: {errors: @schedule.errors.full_messages}, status: :unprocessable_entity
-    end
-  end
+    @collected_plant = CollectedPlant.find(params[:collected_plant_id])
+    @schedule = @collected_plant.build_schedule(schedule_params)
 
-  def update
-    @schedule = Schedule.find_by(id: params[:id])
-    if @schedule.update(
-      user_id: params[:user_id] || @schedule.user_id,
-      collected_plant_id: params[:collected_plant_id] || @schedule.collected_plant_id,
-      watering_start_date: params[:watering_start_date] || @schedule.watering_start_date,
-    )
+    if @schedule.save
       render :show
     else
       render json: { errors: @schedule.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
+  def update
+    @schedule = Schedule.find_by(id: params[:id])
+
+    if @schedule
+      if @schedule.update(schedule_params)
+        render :show
+      else
+        render json: { errors: @schedule.errors.full_messages }, status: :unprocessable_entity
+      end
+    else
+      render json: { errors: ['Schedule not found'] }, status: :not_found
+    end
+  end
+
   def destroy
     @schedule = Schedule.find_by(id: params[:id])
+
     if confirm_destroy?
       @schedule.destroy
-      render json: { message: "schedule destroyed successfully" }
+      render json: { message: "Schedule destroyed successfully" }
     else
       render json: { message: "Deletion canceled" }
     end
@@ -52,4 +52,11 @@ class SchedulesController < ApplicationController
     confirmation = params[:confirm]
     confirmation == "true"
   end
+
+  def schedule_params
+    params.permit(:user_id, :collected_plant_id, :watering_start_date)
+  end
+  
 end
+
+
