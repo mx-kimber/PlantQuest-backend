@@ -54,7 +54,7 @@ class SchedulesController < ApplicationController
   end
 
   def schedule_params
-    params.permit(:user_id, :collected_plant_id, :watering_start_date)
+    params.permit(:user_id, :collected_plant_id, :watering_start_date, :days_to_water)
   end
   
 end

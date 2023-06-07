@@ -2,7 +2,7 @@ class Schedule < ApplicationRecord
   belongs_to :user
   belongs_to :collected_plant
 
-  # validates :watering_start_date, presence: true
+  validates :watering_start_date, presence: true
   # validate :valid_watering_start_date
 
   # # private

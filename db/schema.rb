@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_29_192817) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_07_043132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,7 +28,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_29_192817) do
     t.string "name"
     t.text "description"
     t.integer "sun_amount"
-    t.integer "days_to_water"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -39,6 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_29_192817) do
     t.datetime "watering_start_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "days_to_water"
   end
 
   create_table "users", force: :cascade do |t|

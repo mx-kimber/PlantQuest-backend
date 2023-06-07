@@ -63,7 +63,7 @@ class CollectedPlantsController < ApplicationController
   end
 
   def schedule_params
-    params.permit(:watering_start_date)
+    params.permit(:watering_start_date, :days_to_water)
   end
 
   def create_or_update_schedule
