@@ -5,5 +5,5 @@ class Plant < ApplicationRecord
   validates :days_to_water, presence: true
 
   has_many :collected_plants
-  has_many :schedules, through: :collected_plants
+ 
 end

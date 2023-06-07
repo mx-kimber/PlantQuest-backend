@@ -1,6 +1,8 @@
-json.id collected_plant.id
-json.user_id collected_plant.user_id
-json.plant_id collected_plant.plant_id
-json.custom_name collected_plant.custom_name
-json.notes collected_plant.notes
-json.users_image collected_plant.users_image
+json.extract! collected_plant, :id, :user_id, :custom_name, :notes, :users_image
+json.plant do
+  json.id collected_plant.plant.id
+  json.name collected_plant.plant.name
+  json.description collected_plant.plant.description
+  json.sun_amount collected_plant.plant.sun_amount
+  json.days_to_water collected_plant.plant.days_to_water
+end

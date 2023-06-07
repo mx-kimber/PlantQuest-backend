@@ -1,19 +1,11 @@
 class CollectedPlantsController < ApplicationController
-
   def index
     @collected_plants = current_user.collected_plants
     render :index
   end
 
   def create
-    @collected_plant = CollectedPlant.new(
-      user_id: params[:user_id],
-      plant_id: params[:plant_id],
-      custom_name: params[:custom_name],
-      notes: params[:notes],
-      users_image: params[:users_image]
-    )
-    
+    @collected_plant = current_user.collected_plants.build(collected_plant_params)
   
     if @collected_plant.save
       render :show
@@ -25,16 +17,13 @@ class CollectedPlantsController < ApplicationController
   def show
     @collected_plant = CollectedPlant.find(params[:id])
     render :show
-  end  
+  end
 
   def update
     @collected_plant = CollectedPlant.find_by(id: params[:id])
   
     if @collected_plant
-      @collected_plant.assign_attributes(collected_plant_params)
-      @collected_plant.users_image ||= @collected_plant.plant.users_image
-  
-      if @collected_plant.save
+      if @collected_plant.update(collected_plant_params)
         render :show
       else
         render json: { errors: @collected_plant.errors.full_messages }, status: :unprocessable_entity
@@ -68,6 +57,10 @@ class CollectedPlantsController < ApplicationController
   end
 
   def collected_plant_params
-    params.permit(:user_id, :plant_id, :custom_name, :notes, :users_image)
+    params.permit(:custom_name, :notes, :users_image, :plant_id)
   end
+  
+  
+  
 end
+
