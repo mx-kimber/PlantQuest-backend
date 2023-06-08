@@ -3,7 +3,7 @@ class Schedule < ApplicationRecord
   belongs_to :collected_plant
 
   validates :watering_start_date, presence: true
-  # validate :valid_watering_start_date
+  validates :days_to_water, presence: true
 
   # # private
 
