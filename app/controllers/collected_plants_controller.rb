@@ -59,7 +59,7 @@ class CollectedPlantsController < ApplicationController
   end
 
   def collected_plant_params
-    params.permit(:custom_name, :notes, :users_image, :plant_id)
+    params.permit(:custom_name, :notes, :users_image, :plant_id, :created_at)
   end
 
   def schedule_params

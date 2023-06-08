@@ -1,4 +1,4 @@
-json.extract! collected_plant, :id, :user_id, :custom_name, :notes, :users_image
+json.extract! collected_plant, :id, :user_id, :custom_name, :notes, :users_image, :created_at
 
 json.plant do
   json.id collected_plant.plant.id
