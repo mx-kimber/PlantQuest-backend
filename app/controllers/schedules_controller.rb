@@ -1,8 +1,9 @@
 class SchedulesController < ApplicationController
   def index
-    @schedules = current_user.schedules
+    @schedules = current_user.schedules.includes(collected_plant: :plant.name)
     render :index
   end
+  
 
   def show
     @schedule = Schedule.find(params[:id])
