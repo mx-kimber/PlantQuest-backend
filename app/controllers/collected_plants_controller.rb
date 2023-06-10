@@ -5,6 +5,8 @@ class CollectedPlantsController < ApplicationController
   end
 
   def create
+    collected_plant_params = build_collected_plant_params
+
     @collected_plant = current_user.collected_plants.build(collected_plant_params)
 
     if @collected_plant.save
@@ -22,8 +24,10 @@ class CollectedPlantsController < ApplicationController
 
   def update
     @collected_plant = CollectedPlant.find_by(id: params[:id])
-
+  
     if @collected_plant
+      collected_plant_params = build_collected_plant_params
+  
       if @collected_plant.update(collected_plant_params)
         create_or_update_schedule
         render :show
@@ -34,6 +38,7 @@ class CollectedPlantsController < ApplicationController
       render json: { errors: ['Collected Plant not found'] }, status: :not_found
     end
   end
+  
 
   def destroy
     @collected_plant = CollectedPlant.find_by(id: params[:id])
@@ -59,7 +64,15 @@ class CollectedPlantsController < ApplicationController
   end
 
   def collected_plant_params
-    params.permit(:custom_name, :notes, :users_image, :plant_id, :created_at)
+    params.permit(:custom_name, :notes, :users_image, :plant_id, :created_at, plant: [:name])
+  end
+  
+
+  def build_collected_plant_params
+    collected_plant_params = collected_plant_params()
+    collected_plant_params[:custom_name] ||= collected_plant_params[:plant_id].presence&.yield_self { |id| Plant.find_by(id: id)&.name }
+
+    collected_plant_params
   end
 
   def schedule_params
@@ -75,5 +88,7 @@ class CollectedPlantsController < ApplicationController
     end
   end
 end
+
+
 
 
