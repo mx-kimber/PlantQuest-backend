@@ -1,21 +1,20 @@
 class SchedulesController < ApplicationController
   def index
-    @schedules = current_user.schedules.includes(collected_plant: :plant.name)
-    render :index
+    @schedules = current_user.schedules.includes(collected_plant: :plant)
+    render json: @schedules, include: { collected_plant: { include: :plant } }
   end
-  
 
   def show
     @schedule = Schedule.find(params[:id])
-    render :show
-  end 
+    render json: @schedule, include: { collected_plant: { include: :plant } }
+  end
 
   def create
     @collected_plant = CollectedPlant.find(params[:collected_plant_id])
     @schedule = @collected_plant.build_schedule(schedule_params)
 
     if @schedule.save
-      render :show
+      render json: @schedule, include: { collected_plant: { include: :plant } }, status: :created
     else
       render json: { errors: @schedule.errors.full_messages }, status: :unprocessable_entity
     end
@@ -26,7 +25,7 @@ class SchedulesController < ApplicationController
 
     if @schedule
       if @schedule.update(schedule_params)
-        render :show
+        render json: @schedule, include: { collected_plant: { include: :plant } }
       else
         render json: { errors: @schedule.errors.full_messages }, status: :unprocessable_entity
       end
@@ -45,9 +44,9 @@ class SchedulesController < ApplicationController
       render json: { message: "Deletion canceled" }
     end
   end
-  
+
   private
-  
+
   def confirm_destroy?
     confirm_message = "Are you sure you want to delete this schedule?"
     confirmation = params[:confirm]
@@ -57,7 +56,7 @@ class SchedulesController < ApplicationController
   def schedule_params
     params.permit(:user_id, :collected_plant_id, :watering_start_date, :days_to_water)
   end
-  
 end
+
 
 
