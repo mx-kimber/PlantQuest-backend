@@ -8,8 +8,13 @@ class CollectedPlant < ApplicationRecord
 
   validates :user_id, presence: true
   validates :plant_id, presence: true
-  # validates :custom_name, presence: true
+
+  def build_schedule(schedule_params)
+    self.schedule = Schedule.new(schedule_params)
+  end
+end
+
+  
+# validates :custom_name, presence: true
   # validates :notes, presence: true
   # validates :users_image, presence: true
-end
-  

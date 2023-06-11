@@ -56,9 +56,10 @@ class CollectedPlantsController < ApplicationController
     confirmation == "true"
   end
 
-  def collected_plant_params
-    params.permit(:custom_name, :notes, :users_image, :plant_id)
-  end
+def collected_plant_params
+  params.permit(:plant_id, :custom_name, :user_id, :collected_plant_id,:notes, :users_image)
+end
+
 end
 
 
