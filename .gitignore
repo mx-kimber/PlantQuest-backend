@@ -29,3 +29,6 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+app/javascript/application.js
+app/javascript/controllers/hello_controller.js
+app/javascript/controllers/hello_controller.js
