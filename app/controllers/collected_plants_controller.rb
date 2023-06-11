@@ -58,7 +58,7 @@ class CollectedPlantsController < ApplicationController
   private
 
   def confirm_destroy?
-    confirm_message = "Are you sure you want to delete this collected plant?"
+    @confirm_message = "Are you sure you want to delete this collected plant?"
     confirmation = params[:confirm]
     confirmation == "true"
   end
@@ -66,11 +66,10 @@ class CollectedPlantsController < ApplicationController
   def collected_plant_params
     params.permit(:custom_name, :notes, :users_image, :plant_id, :created_at, plant: [:name])
   end
-  
 
   def build_collected_plant_params
-    collected_plant_params = collected_plant_params()
-    collected_plant_params[:custom_name] ||= collected_plant_params[:plant_id].presence&.yield_self { |id| Plant.find_by(id: id)&.name }
+    @collected_plant_params = collected_plant_params()
+    @collected_plant_params[:custom_name] ||= @collected_plant_params[:plant_id].presence&.yield_self { |id| Plant.find_by(id: id)&.name }
 
     collected_plant_params
   end

@@ -48,7 +48,7 @@ class SchedulesController < ApplicationController
   private
 
   def confirm_destroy?
-    confirm_message = "Are you sure you want to delete this schedule?"
+    @confirm_message = "Are you sure you want to delete this schedule?"
     confirmation = params[:confirm]
     confirmation == "true"
   end
