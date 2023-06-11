@@ -5,12 +5,9 @@ class CollectedPlantsController < ApplicationController
   end
 
   def create
-    collected_plant_params = build_collected_plant_params
-
     @collected_plant = current_user.collected_plants.build(collected_plant_params)
 
     if @collected_plant.save
-      create_or_update_schedule
       render :show
     else
       render json: { errors: @collected_plant.errors.full_messages }, status: :unprocessable_entity
@@ -26,10 +23,7 @@ class CollectedPlantsController < ApplicationController
     @collected_plant = CollectedPlant.find_by(id: params[:id])
   
     if @collected_plant
-      collected_plant_params = build_collected_plant_params
-  
       if @collected_plant.update(collected_plant_params)
-        create_or_update_schedule
         render :show
       else
         render json: { errors: @collected_plant.errors.full_messages }, status: :unprocessable_entity
@@ -39,7 +33,6 @@ class CollectedPlantsController < ApplicationController
     end
   end
   
-
   def destroy
     @collected_plant = CollectedPlant.find_by(id: params[:id])
 
@@ -64,27 +57,7 @@ class CollectedPlantsController < ApplicationController
   end
 
   def collected_plant_params
-    params.permit(:custom_name, :notes, :users_image, :plant_id, :created_at, plant: [:name])
-  end
-
-  def build_collected_plant_params
-    @collected_plant_params = collected_plant_params()
-    @collected_plant_params[:custom_name] ||= @collected_plant_params[:plant_id].presence&.yield_self { |id| Plant.find_by(id: id)&.name }
-
-    collected_plant_params
-  end
-
-  def schedule_params
-    params.permit(:watering_start_date, :days_to_water)
-  end
-
-  def create_or_update_schedule
-    schedule = @collected_plant.schedule
-    if schedule.present?
-      schedule.update(schedule_params)
-    else
-      @collected_plant.create_schedule(schedule_params)
-    end
+    params.permit(:custom_name, :notes, :users_image, :plant_id)
   end
 end
 
