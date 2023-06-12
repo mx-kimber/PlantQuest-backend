@@ -47,7 +47,7 @@ class PlantsController < ApplicationController
   end
 
   def confirm_destroy?
-    confirm_message = "Are you sure you want to delete this plant?"
+    @confirm_message = "Are you sure you want to delete this plant?"
     confirmation = params[:confirm]
     confirmation == "true"
   end

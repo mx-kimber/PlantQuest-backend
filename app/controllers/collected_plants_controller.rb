@@ -1,4 +1,5 @@
 class CollectedPlantsController < ApplicationController
+
   def index
     @collected_plants = current_user.collected_plants
     render :index
@@ -56,9 +57,9 @@ class CollectedPlantsController < ApplicationController
     confirmation == "true"
   end
 
-def collected_plant_params
-  params.permit(:plant_id, :custom_name, :user_id, :collected_plant_id,:notes, :users_image)
-end
+  def collected_plant_params
+    params.require(:collected_plant).permit(:plant_id, :user_id, :custom_name, :users_image, :notes)
+  end
 
 end
 
